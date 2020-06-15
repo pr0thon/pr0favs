@@ -13,6 +13,9 @@ COOKIES = {
     "me": "",
 }
 
+""" INSERT COLLECTION HERE """
+COLLECTION = "favoriten"
+
 FLAGS = {
     1: "sfw",
     2: "nsfw",
@@ -33,7 +36,7 @@ def fetch_json(url):
 
 def fetch_favs(flags):
     """ Fetch all favs """
-    url = "https://pr0gramm.com/api/items/get?self=true&flags=" + str(flags) + "&likes=" + USERNAME
+    url = "https://pr0gramm.com/api/items/get?flags=" + str(flags) + "&user=" + USERNAME + "&collection=" + COLLECTION + "&self=true"
     favs = fetch_json(url)["items"]
 
     while True:
@@ -50,7 +53,7 @@ def fetch_favs(flags):
 
 def download(item):
     """ Download an item """
-    url = "http://full.pr0gramm.com/" + item["fullsize"] if item["fullsize"] else "http://img.pr0gramm.com/" + item["image"]
+    url = "https://full.pr0gramm.com/" + item["fullsize"] if item["fullsize"] else "https://img.pr0gramm.com/" + item["image"]
     file = os.path.basename(item["fullsize"] if item["fullsize"] else item["image"])
     dir = FLAGS[item["flags"]]
     path = dir + "/" + file
